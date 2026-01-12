@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookMyShow Clone</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        .movie-card:hover {
+            box-shadow: 0 0 35px rgba(236,72,153,0.6);
+            transform: translateY(-6px) scale(1.02);
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, rgba(236,72,153,.6), transparent);
+            animation: fall 8s linear infinite;
+        }
+
+        @keyframes fall {
+            from { transform: translateY(-100px); opacity: 1; }
+            to { transform: translateY(120vh); opacity: 0; }
+        }
+    </style>
+</head>
+
+<body class="font-[Poppins] bg-black text-white min-h-screen relative overflow-y-auto">
+
+<div class="absolute inset-0 -z-10 bg-gradient-to-br from-black via-[#0f0f1a] to-black"></div>
+
+{% for i in "12345678910111213" %}
+<div class="particle" style="left: {{ forloop.counter|add:10 }}%; animation-delay: {{ forloop.counter }}s;"></div>
+{% endfor %}
+
+<header class="py-10 text-center">
+    <h1 class="text-5xl md:text-6xl font-extrabold tracking-widest">
+        <span class="text-pink-500 drop-shadow-[0_0_25px_rgba(236,72,153,0.8)]">
+            BookMyShow
+        </span>
+    </h1>
+    <p class="mt-3 text-gray-400 tracking-wide">
+        Book tickets • Choose seats • Experience cinema 🎬
+    </p>
+</header>
+
+<section class="px-6 md:px-16 pb-20">
+    <h2 class="text-3xl font-semibold mb-8 text-left">
+        🎞️ <span class="text-pink-400">Now Showing</span>
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {% for movie in movies %}
+        <div class="movie-card transition-all duration-500 rounded-2xl bg-[#111827] overflow-hidden">
+
+            <!-- ✅ POSTER FIXED -->
+            <div class="h-72 overflow-hidden">
+                <img
+                    src="{% static movie.poster %}"
+                    alt="{{ movie.title }}"
+                    class="w-full h-full object-cover hover:scale-110 transition duration-700"
+                    loading="lazy"
+                >
+            </div>
+
+            <div class="p-5 space-y-3">
+                <h3 class="text-xl font-bold text-pink-400">
+                    {{ movie.title }}
+                </h3>
+
+                <p class="text-sm text-gray-400 line-clamp-3">
+                    {{ movie.description }}
+                </p>
+
+                <div class="text-xs text-gray-300 flex flex-wrap gap-2">
+                    <span class="bg-gray-800 px-2 py-1 rounded">
+                        🎭 {{ movie.genres.all|join:", " }}
+                    </span>
+                    <span class="bg-gray-800 px-2 py-1 rounded">
+                        🌐 {{ movie.languages.all|join:", " }}
+                    </span>
+                </div>
+
+                <div class="flex items-center justify-between pt-3">
+                    <a href="{{ movie.trailer_url }}" target="_blank"
+                       class="text-sm text-blue-400 hover:underline">
+                        ▶ Watch Trailer
+                    </a>
+
+                    <a href="{% url 'shows:theatre_list' movie.id %}"
+                       class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded-lg text-sm font-semibold transition">
+                        Book Now
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="min-h-screen bg-black text-white flex justify-center items-center">
+  <div class="bg-[#0f172a] p-10 rounded-3xl shadow-2xl">
+    <h2 class="text-4xl text-emerald-400 text-center mb-6">
+      Select Your Seats
+    </h2>
+
+    <div class="grid gap-2">
+      {% regroup seats by row as row_list %}
+      {% for row in row_list %}
+        <div class="flex items-center gap-2">
+          <span class="w-6 text-gray-400">{{ row.grouper }}</span>
+          {% for seat in row.list %}
+            <div class="w-9 h-9 flex items-center justify-center
+                        rounded-lg border
+                        {% if seat.is_booked %}
+                          bg-gray-700 border-gray-700
+                        {% else %}
+                          border-emerald-400 text-emerald-400
+                          hover:bg-emerald-500 hover:text-black cursor-pointer
+                        {% endif %}">
+              {{ seat.number }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <p class="text-center text-gray-400 mt-6">
+      All eyes this way please!
+    </p>
+  </div>
+</div>
+
+{% endblock %}

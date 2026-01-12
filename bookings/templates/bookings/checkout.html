@@ -1,0 +1,11 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<h2>Checkout</h2>
+<p>Reservation: {{ reservation.id }}</p>
+<p>Seats: {{ reservation.seats.count }}</p>
+<p>Amount: {{ amount }}</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Pay (Simulate)</button>
+</form>
+{% endblock %}

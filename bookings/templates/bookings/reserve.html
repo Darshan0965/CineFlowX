@@ -1,0 +1,25 @@
+{% extends 'movies/base.html' %}
+{% block content %}
+<h2>Reserve seats for {{ movie.title }}</h2>
+<form id="reserveForm" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="screen_id" value="1">
+  <label>Seat IDs (comma separated):</label>
+  <input name="seat_ids" id="seat_ids" placeholder="1,2,3">
+  <button type="button" onclick="makeReservation()">Reserve</button>
+</form>
+
+<script>
+function makeReservation(){
+  const seatStr = document.getElementById('seat_ids').value;
+  const ids = seatStr.split(',').map(s=>s.trim()).filter(Boolean);
+  const data = new FormData();
+  data.append('screen_id', 1);
+  ids.forEach(i=> data.append('seat_ids[]', i));
+  fetch(window.location.pathname, {method:'POST', body: data, headers: {'X-Requested-With': 'XMLHttpRequest'}})
+    .then(r=> r.json())
+    .then(resp => alert(JSON.stringify(resp)))
+    .catch(err => alert('Error '+err))
+}
+</script>
+{% endblock %}

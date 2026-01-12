@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial; background:#f4f4f4; padding:20px;">
+
+<div style="max-width:600px; margin:auto; background:white; padding:20px; border-radius:10px;">
+    <h2 style="text-align:center; color:#d32f2f;">🎟️ Ticket Booking Confirmation</h2>
+
+    <p>Hello {{ user_email }},</p>
+
+    <p>Thank you for booking your movie ticket with <strong>BookMyShow Clone</strong>!</p>
+
+    <h3>Booking Details</h3>
+
+    <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+    <p><strong>Total Amount:</strong> ₹{{ booking.total_amount }}</p>
+
+    <h3>Movie Details</h3>
+
+    <p><strong>Movie:</strong> {{ reservation.movie.title }}</p>
+    <p><strong>Seats:</strong>
+        {% for s in reservation.seats.all %}
+            {{ s.row }}{{ s.number }}
+            {% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+
+    <p><strong>Show Time:</strong> (Add time later)</p>
+
+    <br>
+    <p>Enjoy your show! 🍿🎬</p>
+
+    <p style="font-size:12px; color:gray;">This is an automated email. Do not reply.</p>
+</div>
+
+</body>
+</html>

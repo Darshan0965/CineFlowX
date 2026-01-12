@@ -1,0 +1,7 @@
+<h2>How many seats?</h2>
+
+{% for i in "12345678910"|make_list %}
+<a href="{% url 'shows:seat_layout' show.id %}">
+    {{ forloop.counter }}
+</a>
+{% endfor %}
